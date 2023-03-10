@@ -1,0 +1,10 @@
+Bundle-Name: MVCServiceBuilder-api
+Bundle-SymbolicName: com.mvcServiceBuilder.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.mvcServiceBuilder.exception,\
+	com.mvcServiceBuilder.model,\
+	com.mvcServiceBuilder.service,\
+	com.mvcServiceBuilder.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../MVCServiceBuilder-service/service.xml

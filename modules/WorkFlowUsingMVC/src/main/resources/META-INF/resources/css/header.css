@@ -1,0 +1,107 @@
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+.outerbox {
+    padding-top: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+
+}
+
+.formbox {
+    padding-top: 50px;
+    padding-right: 150px;
+    padding-bottom: 50px;
+    padding-left: 150px;
+}
+
+.techstacknav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.techstacknav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.techstacknav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.techstacknav a.activeItem {
+    background-color: #04AA6D;
+    color: white;
+}
+
+.flex-container {
+    display: flex;
+    margin-top: 3px;
+    margin-bottom:3px;
+}
+.CustomCancelBtn{
+    color: #5C8EDC;
+    font-family: 'Poppins';
+    font-size: 18px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    border: 1px solid #5C8EDC;
+}
+.filterLabel
+{
+    font-weight: bold;
+    margin-top: 10px;
+    margin-right: 5px;
+}
+.filterBox
+{
+    margin-right: 50px;
+    width:250px;
+}
+.filterBoxTechnicalDetail
+{
+    margin-right: 30px;
+    width: 258px;
+}
+.topContainer {
+    margin-bottom: 3px;
+    display: grid;
+    grid-template-columns: 9fr 1fr;
+    grid-column-gap: 10px;
+}

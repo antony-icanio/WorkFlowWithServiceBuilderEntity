@@ -1,0 +1,11 @@
+dependencies {
+	compile project(":modules:MVCServiceBuilder:MVCServiceBuilder-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+buildService {
+	apiDir = "../MVCServiceBuilder-api/src/main/java"
+}
+
+group = "com.mvcServiceBuilder"
