@@ -1,5 +1,5 @@
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
-<%@ include file="/init.jsp" %>
+<%@ include file="init.jsp" %>
 
 <portlet:defineObjects />
 

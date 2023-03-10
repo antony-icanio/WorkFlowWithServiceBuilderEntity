@@ -14,11 +14,13 @@
 
 package com.mvcServiceBuilder.service.impl;
 
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserServiceUtil;
+import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import com.mvcServiceBuilder.model.TimeSheet;
@@ -53,6 +55,15 @@ public class TimeSheetLocalServiceImpl extends TimeSheetLocalServiceBaseImpl {
         timeSheet.setUserName(user.getFullName());
 
         TimeSheet newTimeSheet = timeSheetLocalService.addTimeSheet(timeSheet);
+
+//        AssetEntry assetEntry = assetEntryLocalService.
+//                updateEntry( user.getUserId(), serviceContext.getScopeGroupId(), new Date(),
+//                        new Date(), TimeSheet.class.getName(),newTimeSheet.getTimeSheetId(),
+//                        newTimeSheet.getUuid(), 0, null, null,
+//                        true, false, new Date(), null, new Date(),
+//                        null, ContentTypes.TEXT_HTML, newTimeSheet.getJobName(),
+//                        newTimeSheet.getDescription(), null, null,
+//                        null, 0, 0, null);
 
         WorkflowHandlerRegistryUtil.startWorkflowInstance(user.getCompanyId(),
                 user.getGroupId(), user.getUserId(), TimeSheet.class.getName(),

@@ -6,7 +6,7 @@
 <%@ page import="com.mvcServiceBuilder.service.TimeSheetLocalServiceUtil" %>
 <%@ page import="com.mvcServiceBuilder.model.TimeSheet" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
-<%@ include file="/init.jsp" %>
+<%@ include file="init.jsp" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css"/>
@@ -29,18 +29,13 @@
 		delta = 10 ;
 	}
 
-	long organizationId = user.getOrganizationIds() [0];
-
 	DynamicQuery dynamicQuery = TimeSheetLocalServiceUtil.dynamicQuery();
 
-//	Criterion criterion = RestrictionsFactoryUtil.eq("organizationId",organizationId);
-//	dynamicQuery.add(criterion);
-
 	if(!keyword.isEmpty() ) {
-		dynamicQuery.add(RestrictionsFactoryUtil.ilike("name","%"+keyword+"%"));
+		dynamicQuery.add(RestrictionsFactoryUtil.ilike("jobName","%"+keyword+"%"));
 	}
 
-	dynamicQuery.addOrder(OrderFactoryUtil.asc("name"));
+	dynamicQuery.addOrder(OrderFactoryUtil.asc("jobName"));
 
 	int totalCount = TimeSheetLocalServiceUtil.dynamicQuery(dynamicQuery).size() ;
 	List<TimeSheet> timeSheetList = TimeSheetLocalServiceUtil.dynamicQuery(dynamicQuery,from,to);
@@ -89,8 +84,23 @@
 		<liferay-ui:search-container-row cssClass="tableRowCss" className="com.mvcServiceBuilder.model.TimeSheet"
 										 keyProperty="timeSheetId" modelVar="timeSheet" escapedModel="<%= true %>" >
 
-			<liferay-ui:search-container-column-text property="jobName" name="Job Name" />
-			<liferay-ui:search-container-column-text property="description" name="Description" />
+			<liferay-ui:search-container-column-text name="Job Name" property="jobName" />
+
+			<liferay-ui:search-container-column-text name="Description" property="description" />
+
+			<liferay-ui:search-container-column-text name="Submited By" property="userName" />
+
+			<%  if(timeSheet.getUserId() != timeSheet.getStatusByUserId() ) { %>
+
+				<liferay-ui:search-container-column-text name="Approved By" property="statusByUserName" />
+
+			<%  } else { %>
+
+			<liferay-ui:search-container-column-text name="Approved By" value="" />
+
+			<%  }  %>
+
+			<liferay-ui:search-container-column-status property="status" name="Status" />
 
 <%--			<liferay-ui:search-container-column-text name="Edit" >--%>
 
@@ -106,8 +116,6 @@
 <%--				</a>--%>
 
 <%--			</liferay-ui:search-container-column-text>--%>
-
-			<liferay-ui:search-container-column-status property="status" name="Status" />
 
 			<liferay-ui:search-container-column-text name="Delete" >
 
