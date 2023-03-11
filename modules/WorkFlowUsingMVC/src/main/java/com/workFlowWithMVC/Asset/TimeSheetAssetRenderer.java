@@ -69,7 +69,14 @@ public class TimeSheetAssetRenderer extends BaseJSPAssetRenderer<TimeSheet> {
 
     @Override
     public String getSummary(PortletRequest portletRequest, PortletResponse portletResponse) {
-        return timeSheet.getJobName()+ "by "+timeSheet.getUserName()+",from:"+timeSheet.getDate();
+
+        String summary = timeSheet.getUserName() + " Submit Time Sheet For Your Approval " + "\n" +
+                "Job Name : " + timeSheet.getJobName() + "\n" +
+                "Description : " + timeSheet.getDescription() + "\n" +
+                "Date : " + timeSheet.getDate() + "\n" +
+                "Hour : " + timeSheet.getHour() + "\n" ;
+
+        return summary;
     }
 
     @Override
