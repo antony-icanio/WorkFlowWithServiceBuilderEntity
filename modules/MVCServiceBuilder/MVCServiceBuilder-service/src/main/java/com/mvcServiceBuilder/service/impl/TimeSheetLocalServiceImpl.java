@@ -56,14 +56,14 @@ public class TimeSheetLocalServiceImpl extends TimeSheetLocalServiceBaseImpl {
 
         TimeSheet newTimeSheet = timeSheetLocalService.addTimeSheet(timeSheet);
 
-//        AssetEntry assetEntry = assetEntryLocalService.
-//                updateEntry( user.getUserId(), serviceContext.getScopeGroupId(), new Date(),
-//                        new Date(), TimeSheet.class.getName(),newTimeSheet.getTimeSheetId(),
-//                        newTimeSheet.getUuid(), 0, null, null,
-//                        true, false, new Date(), null, new Date(),
-//                        null, ContentTypes.TEXT_HTML, newTimeSheet.getJobName(),
-//                        newTimeSheet.getDescription(), null, null,
-//                        null, 0, 0, null);
+        AssetEntry assetEntry = assetEntryLocalService.
+                updateEntry( user.getUserId(), serviceContext.getScopeGroupId(), new Date(),
+                        new Date(), TimeSheet.class.getName(),newTimeSheet.getTimeSheetId(),
+                        newTimeSheet.getUuid(), 0, null, null,
+                        true, false, new Date(), null, new Date(),
+                        null, ContentTypes.TEXT_HTML, newTimeSheet.getJobName(),
+                        newTimeSheet.getDescription(), null, null,
+                        null, 0, 0, null);
 
         WorkflowHandlerRegistryUtil.startWorkflowInstance(user.getCompanyId(),
                 user.getGroupId(), user.getUserId(), TimeSheet.class.getName(),
@@ -74,6 +74,25 @@ public class TimeSheetLocalServiceImpl extends TimeSheetLocalServiceBaseImpl {
 
     public TimeSheet updateStatus(long userId,long timeSheetEntityId,
                                   int status, ServiceContext serviceContext) {
+
+        try {
+            if (status == WorkflowConstants.STATUS_APPROVED) {
+
+                //  update the asset status to visibile
+
+                assetEntryLocalService.updateEntry(TimeSheet.class.getName(), timeSheetEntityId,
+                        new Date(),null, true, true);
+            } else {
+
+                //  set leave entity status to false
+
+                assetEntryLocalService.updateVisible(TimeSheet.class.getName(),
+                        timeSheetEntityId, false);
+            }
+        } catch (Exception e) {
+            System.out.println("Error Occur In Liferay Update Status");
+            System.out.println("Error : " + e);
+        }
 
         TimeSheet timeSheet = timeSheetLocalService.fetchTimeSheet(timeSheetEntityId);
 
