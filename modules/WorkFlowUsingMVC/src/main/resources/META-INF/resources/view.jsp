@@ -5,6 +5,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.mvcServiceBuilder.service.TimeSheetLocalServiceUtil" %>
 <%@ page import="com.mvcServiceBuilder.model.TimeSheet" %>
+<%@ page import="com.liferay.portal.kernel.workflow.WorkflowTask" %>
+<%@ page import="com.liferay.portal.kernel.workflow.WorkflowTaskManagerUtil" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
 <%@ include file="init.jsp" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
@@ -40,6 +42,39 @@
 	int totalCount = TimeSheetLocalServiceUtil.dynamicQuery(dynamicQuery).size() ;
 	List<TimeSheet> timeSheetList = TimeSheetLocalServiceUtil.dynamicQuery(dynamicQuery,from,to);
 %>
+
+
+
+
+
+<%
+	List<WorkflowTask> workflowTasks = WorkflowTaskManagerUtil.
+			getWorkflowTasksByUser(user.getCompanyId(),user.getUserId(),false,-1,-1,null);
+%>
+
+<liferay-portlet:renderURL varImpl="iteratorURLl" >
+	<portlet:param name="mvcPath" value="/view.jsp" />
+</liferay-portlet:renderURL >
+
+<liferay-ui:search-container emptyResultsMessage="There are no items" delta='<%= delta %>'
+							 total = '<%= totalCount %>' iteratorURL="<%= iteratorURLl %>" >
+
+	<liferay-ui:search-container-results results = '<%= workflowTasks %>' />
+
+	<liferay-ui:search-container-row cssClass="tableRowCss" className="com.liferay.portal.kernel.workflow.WorkflowTask"
+									 keyProperty="workflowTaskId" modelVar="workflowTask" escapedModel="<%= true %>" >
+
+		<liferay-ui:search-container-column-text name="User Name" property="userName" />
+
+		<liferay-ui:search-container-column-text name="Type" property="type" />
+
+	</liferay-ui:search-container-row>
+
+	<liferay-ui:search-iterator markupView="lexicon" />
+</liferay-ui:search-container>
+
+
+
 
 <div class="outerbox" >
 
