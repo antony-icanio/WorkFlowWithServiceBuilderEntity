@@ -7,6 +7,10 @@
 <%@ page import="com.mvcServiceBuilder.model.TimeSheet" %>
 <%@ page import="com.liferay.portal.kernel.workflow.WorkflowTask" %>
 <%@ page import="com.liferay.portal.kernel.workflow.WorkflowTaskManagerUtil" %>
+<%@ page import="com.liferay.portal.workflow.kaleo.service.KaleoInstanceLocalServiceUtil" %>
+<%@ page import="com.liferay.portal.workflow.kaleo.model.KaleoInstance" %>
+<%@ page import="com.liferay.asset.kernel.model.AssetEntry" %>
+<%@ page import="com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
 <%@ include file="init.jsp" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
@@ -48,7 +52,7 @@
 
 
 <%
-	List<WorkflowTask> workflowTasks = WorkflowTaskManagerUtil.
+	List<WorkflowTask> workflowTaskList = WorkflowTaskManagerUtil.
 			getWorkflowTasksByUser(user.getCompanyId(),user.getUserId(),false,-1,-1,null);
 %>
 
@@ -59,19 +63,65 @@
 <liferay-ui:search-container emptyResultsMessage="There are no items" delta='<%= delta %>'
 							 total = '<%= totalCount %>' iteratorURL="<%= iteratorURLl %>" >
 
-	<liferay-ui:search-container-results results = '<%= workflowTasks %>' />
+	<liferay-ui:search-container-results results = '<%= workflowTaskList %>' />
 
 	<liferay-ui:search-container-row cssClass="tableRowCss" className="com.liferay.portal.kernel.workflow.WorkflowTask"
 									 keyProperty="workflowTaskId" modelVar="workflowTask" escapedModel="<%= true %>" >
 
+		<liferay-ui:search-container-column-text name="WorkFlowTaskId" property="workflowTaskId" />
+
 		<liferay-ui:search-container-column-text name="User Name" property="userName" />
 
-		<liferay-ui:search-container-column-text name="Type" property="type" />
+		<liferay-ui:search-container-column-text name="Name" property="name" />
+
+		<liferay-portlet:actionURL var="approveTimeSheetURL" name="approveTimeSheet" >
+
+			<portlet:param name="workflowTaskId" value="${workflowTask.workflowTaskId}"/>
+
+		</liferay-portlet:actionURL>
+
+		<liferay-ui:search-container-column-text name="Approve" >
+
+			<a href="${approveTimeSheetURL}"> Approve </a>
+
+		</liferay-ui:search-container-column-text>
+
+		<%
+			String value = " Task Id : " + workflowTask.getWorkflowTaskId() +
+					" Instance Id : " + workflowTask.getWorkflowInstanceId() +
+					" Definition Id : " + workflowTask.getWorkflowDefinitionId();
+		%>
+
+		<liferay-ui:search-container-column-text name="Id" value="<%= value %>" />
+
+		<%
+			KaleoInstance kaleoInstance = KaleoInstanceLocalServiceUtil.
+					fetchKaleoInstance(workflowTask.getWorkflowInstanceId());
+
+			System.out.println("Asset Info : " + kaleoInstance.getClassPK());
+
+			try {
+				TimeSheet timeSheet = TimeSheetLocalServiceUtil.fetchTimeSheet(kaleoInstance.getClassPK());
+				System.out.println("TimeSheet  : " + timeSheet);
+			} catch (Exception e) {
+				System.out.println("Id : " + kaleoInstance.getKaleoInstanceId());
+				System.out.println("Error : " +e.getMessage());
+			}
+		%>
 
 	</liferay-ui:search-container-row>
 
 	<liferay-ui:search-iterator markupView="lexicon" />
 </liferay-ui:search-container>
+
+
+
+
+
+
+
+
+
 
 
 
